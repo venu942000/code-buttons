@@ -1,10 +1,10 @@
 {
-  "name": "quick-command-buttons",
-  "displayName": "Quick Command Buttons",
+  "name": "code-button-venu",
+  "displayName": "Command Buttons venu",
   "icon": "public/logo.png",
-  "description": "Add customizable buttons to quickly execute commands in VS Code",
+  "description": "Personal button extension",
   "version": "0.11.0",
-  "publisher": "KubrickCode",
+  "publisher": "venu",
   "license": "MIT",
   "packageManager": "pnpm@9.15.0",
   "repository": {
@@ -30,7 +30,19 @@
     "command palette"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onCommand:quickCommandButtons.refresh",
+    "onCommand:quickCommandButtons.refreshTree",
+    "onCommand:quickCommandButtons.executeFromTree",
+    "onCommand:quickCommandButtons.showAllCommands",
+    "onCommand:quickCommandButtons.openConfig",
+    "onCommand:quickCommandButtons.toggleConfigurationTarget",
+    "onCommand:quickCommandButtons.exportConfiguration",
+    "onCommand:quickCommandButtons.importConfiguration",
+    "onCommand:quickCommandButtons.switchButtonSet",
+    "onCommand:quickCommandButtons.saveAsButtonSet",
+    "onCommand:quickCommandButtons.deleteButtonSet",
+    "onView:quickCommandsTree"
   ],
   "main": "./dist/extension.js",
   "l10n": "./l10n",
@@ -364,7 +376,7 @@
     "lint:format": "npx prettier --write \"src/{extension,internal,pkg,shared}/**/*.ts\" \"src/view/src/**/*.{ts,tsx}\" \"**/*.{json,yml,yaml,md}\"",
     "lint:view": "cd src/view && npx eslint --fix src/**/*.{ts,tsx}",
     "ovsx-publish": "ovsx publish --no-dependencies",
-    "package": "pnpm build && vsce package --no-dependencies --allow-star-activation && find . -maxdepth 1 -name '*.vsix' ! -name '*'$npm_package_version'.vsix' -delete",
+    "package": "./scripts/package.sh",
     "prepare": "husky",
     "preview": "cd src/view && pnpm preview",
     "test": "turbo run test --filter=quick-command-buttons-extension",
