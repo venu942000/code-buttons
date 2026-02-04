@@ -76,13 +76,12 @@ describe("terminal-manager", () => {
       vi.restoreAllMocks();
     });
 
-    it("should create separate terminals for different buttonNames with same command", () => {
+    it("should reuse terminal for different buttonNames with same command", () => {
       manager.executeCommand("npm start", false, "build", "Button A");
       manager.executeCommand("npm start", false, "build", "Button B");
 
-      expect(vscode.window.createTerminal).toHaveBeenCalledTimes(2);
+      expect(vscode.window.createTerminal).toHaveBeenCalledTimes(1);
       expect(vscode.window.createTerminal).toHaveBeenNthCalledWith(1, "build");
-      expect(vscode.window.createTerminal).toHaveBeenNthCalledWith(2, "build");
     });
 
     it("should reuse terminal for same button configuration", () => {
@@ -98,7 +97,7 @@ describe("terminal-manager", () => {
 
       expect(vscode.window.createTerminal).toHaveBeenCalledTimes(2);
       expect(vscode.window.createTerminal).toHaveBeenNthCalledWith(1, "");
-      expect(vscode.window.createTerminal).toHaveBeenNthCalledWith(2, "[QCB] Button A");
+      expect(vscode.window.createTerminal).toHaveBeenNthCalledWith(2, "[QCB] Terminal");
     });
 
     it("should create separate terminals for executeAll group with same command", () => {

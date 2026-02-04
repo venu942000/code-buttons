@@ -28,9 +28,7 @@ export const determineTerminalName = (
 };
 
 export class TerminalManager {
-  private buttonIds = new WeakMap<object, string>();
   private disposables: vscode.Disposable[] = [];
-  private idCounter = 0;
   private terminals = new Map<string, vscode.Terminal>();
 
   constructor(private readonly eventBus?: EventBus) {
@@ -60,7 +58,7 @@ export class TerminalManager {
       return;
     }
 
-    const baseName = buttonName ?? command.split(" ")[0] ?? DEFAULT_TERMINAL_BASE_NAME;
+    const baseName = DEFAULT_TERMINAL_BASE_NAME;
     const terminalName = determineTerminalName(customTerminalName, baseName);
     const shouldExecute = !isButtonConfig(buttonRef) || !hasInsertOnly(buttonRef);
 
@@ -72,11 +70,8 @@ export class TerminalManager {
       return;
     }
 
-    const uniqueId = this.getUniqueButtonId(buttonRef, buttonName);
     const terminalKey = JSON.stringify({
-      command,
-      name: uniqueId,
-      terminalName: customTerminalName,
+      terminalName,
       useVsCodeApi,
     });
 
@@ -101,16 +96,4 @@ export class TerminalManager {
     }
   }
 
-  private getUniqueButtonId(buttonRef?: object, buttonName?: string): string {
-    if (buttonRef) {
-      let id = this.buttonIds.get(buttonRef);
-      if (!id) {
-        id = `btn-${this.idCounter++}`;
-        this.buttonIds.set(buttonRef, id);
-      }
-      return id;
-    }
-
-    return buttonName ?? `temp-${this.idCounter++}`;
-  }
 }
